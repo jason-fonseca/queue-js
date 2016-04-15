@@ -6,13 +6,22 @@ var queue = function(){
 		limit = maxlimit,
 		args = arguments;
 	var x = setInterval(function(){
-		if(args[i]())
+		var r = false;
+		try{
+			r = args[i]();
+		} catch(e) {
+			clearInterval(x);
+			return;
+		}
+		
+		if(r)
 		{
 			limit = maxlimit;
 			i++;
 			if(i >= args.length)
 				clearInterval(x);
 		}
+	
 		if(limit < 0) clearInterval(x);
 		limit--;
 	}, 50);
